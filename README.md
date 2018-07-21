@@ -8,7 +8,16 @@ Edit markdown files in-place..
 - [Crates.io][2]
 
 ## Usage
-```txt
+### Replace the body of markdown heading inline.
+```rust
+extern crate markdown_edit;
+
+use markdown_edit::replace_body;
+use std::path::Path;
+
+let header = "Usage";
+let body = "TODO";
+replace_body("README.md", header, body).unwrap();
 ```
 
 ## Installation
