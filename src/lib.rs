@@ -10,7 +10,7 @@ extern crate failure;
 
 use pulldown_cmark::{Event, Parser, Tag};
 use pulldown_cmark_to_cmark::fmt::cmark;
-// use std::{fs, io, path};
+use std::{fs, path};
 
 /// The Markdown object.
 pub struct Markdown<'p> {
@@ -98,4 +98,18 @@ impl<'p> Markdown<'p> {
       bail!("Could not find header");
     }
   }
+}
+
+/// Replace
+pub fn replace_body(
+  path: path::PathBuf,
+  header: &str,
+  body: String,
+) -> Result<(), failure::Error> {
+  let target = fs::read_to_string(&path)?;
+  let body: Vec<Event> = Parser::new(&body).into_iter().collect();
+  let parser = Markdown::new(&target);
+  let res = parser.replace_body(header, body)?;
+  fs::write(&path, res)?;
+  Ok(())
 }
