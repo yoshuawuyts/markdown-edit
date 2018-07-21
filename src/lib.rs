@@ -27,7 +27,7 @@ impl<'p> Markdown<'p> {
   }
 
   /// Replace the body for a header.
-  pub fn replace_body(
+  pub fn replace_section(
     self,
     header: &str,
     section: Vec<Event>,
@@ -101,7 +101,7 @@ impl<'p> Markdown<'p> {
 }
 
 /// Replace
-pub fn replace_body(
+pub fn replace_section(
   path: path::PathBuf,
   header: &str,
   body: String,
@@ -109,7 +109,7 @@ pub fn replace_body(
   let target = fs::read_to_string(&path)?;
   let body: Vec<Event> = Parser::new(&body).into_iter().collect();
   let parser = Markdown::new(&target);
-  let res = parser.replace_body(header, body)?;
+  let res = parser.replace_section(header, body)?;
   fs::write(&path, res)?;
   Ok(())
 }
